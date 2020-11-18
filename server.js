@@ -46,21 +46,41 @@ app.all('*', function (req, res, next) {
         //     console.log('@@@@@@@@@@@@@@@ server.js catch error: ', error);
         // }
 
-        var request = require('request');
-        var options = {
-            'method': 'GET',
-            'url': 'https://alishah.api-us1.com/api/3/contacts?email=ashah9265@gmail.com&include=plusAppend',
-            'headers': {
-                'accept': 'application/json, text/plain, */*',
-                'api-token': '097448258dbac2b847efba7fb7cdcfb18446ec82bd9f4dc985f9c5b1079b64ed4147185e'
-            }
-        };
+        const targetURL = req.header('Target-Endpoint');
+        if (!targetURL) {
+            res.send(500, { error: 'There is no Target-Endpoint header in the request' });
+            return;
+        }
+        const url = targetUrl + req.url;
+        const headers = { 'Content-Type': 'application/json' };
+        if (req.header('Api-Token')) {
+            headers['Api-Token'] = req.header('Api-Token');
+        }
+        const method = req.method;
+
+        const options = { method, url, headers };
         request(options, function (error, response) {
             console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
             console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
             if (error) throw new Error(error);
             // console.log(response.body);
         }).pipe(res);
+
+        // var request = require('request');
+        // var options = {
+        //     'method': 'GET',
+        //     'url': 'https://alishah.api-us1.com/api/3/contacts?email=ashah9265@gmail.com&include=plusAppend',
+        //     'headers': {
+        //         'accept': 'application/json, text/plain, */*',
+        //         'api-token': '097448258dbac2b847efba7fb7cdcfb18446ec82bd9f4dc985f9c5b1079b64ed4147185e'
+        //     }
+        // };
+        // request(options, function (error, response) {
+        //     console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
+        //     console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
+        //     if (error) throw new Error(error);
+        //     // console.log(response.body);
+        // }).pipe(res);
     }
 });
 
