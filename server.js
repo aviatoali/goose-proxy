@@ -63,7 +63,7 @@ app.all('*', function (req, res, next) {
             const method = req.method;
             const body = req.body;
             const options = { method, url, headers, body };
-            console.log('@@@@@@@@@@@ HERE 5 with options');
+            console.log('@@@@@@@@@@@ HERE 5 with options: ', options);
             request(options, function (error, response) {
                 console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
                 console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
