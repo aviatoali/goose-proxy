@@ -9,6 +9,7 @@ console.log('Using limit: ', myLimit);
 app.use(bodyParser.json({limit: myLimit}));
 
 app.all('*', function (req, res, next) {
+    console.log('@@@@@@@@@@@@@@@ server.js entering');
     // Set CORS headers: allow all origins, methods, and headers: you may want to lock this down in a production environment
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
@@ -20,6 +21,8 @@ app.all('*', function (req, res, next) {
     } else {
         // var targetURL = req.header('Target-URL');
         var targetURL = req.header('Target-Endpoint');
+        console.log('@@@@@@@@@@@@@@@ server.js targetURL: ', targetURL);
+        console.log('@@@@@@@@@@@@@@@ server.js req: ', JSON.stringify(req));
         if (!targetURL) {
             res.send(500, { error: 'There is no Target-Endpoint header in the request' });
             return;
