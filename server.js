@@ -45,26 +45,36 @@ app.all('*', function (req, res, next) {
         // } catch (error) {
         //     console.log('@@@@@@@@@@@@@@@ server.js catch error: ', error);
         // }
+        console.log('@@@@@@@@@@@ HERE 1');
+        try {
+            const targetURL = req.header('Target-Endpoint');
+            if (!targetURL) {
+                res.send(500, { error: 'There is no Target-Endpoint header in the request' });
+                return;
+            }
+            console.log('@@@@@@@@@@@ HERE 2');
+            const url = targetURL + req.url;
+            const headers = { 'Content-Type': 'application/json' };
+            console.log('@@@@@@@@@@@ HERE 3');
+            if (req.header('Api-Token')) {
+                headers['Api-Token'] = req.header('Api-Token');
+            }
+            console.log('@@@@@@@@@@@ HERE 4');
+            const method = req.method;
+            const body = req.body;
+            const options = { method, url, headers, body };
+            console.log('@@@@@@@@@@@ HERE 5');
+            request(options, function (error, response) {
+                console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
+                console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
+                if (error) throw new Error(error);
+                // console.log(response.body);
+            }).pipe(res);
+        } catch (error) {
+            console.log('@@@@@@@@@@@ server catch error: ', error)
+            res.send(500, { error: `Proxy failed due to: ${error.message}` });
+        }
 
-        const targetURL = req.header('Target-Endpoint');
-        if (!targetURL) {
-            res.send(500, { error: 'There is no Target-Endpoint header in the request' });
-            return;
-        }
-        const url = targetURL + req.url;
-        const headers = { 'Content-Type': 'application/json' };
-        if (req.header('Api-Token')) {
-            headers['Api-Token'] = req.header('Api-Token');
-        }
-        const method = req.method;
-        const body = req.body;
-        const options = { method, url, headers, body };
-        request(options, function (error, response) {
-            console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
-            console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
-            if (error) throw new Error(error);
-            // console.log(response.body);
-        }).pipe(res);
 
         // var request = require('request');
         // var options = {
