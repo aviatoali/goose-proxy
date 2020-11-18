@@ -61,7 +61,7 @@ app.all('*', function (req, res, next) {
             console.log('@@@@@@@@@@@ req.body: ', req.body);
             const body = req.body;
             if (Object.keys(body).length > 0) {
-                options.body = body;
+                options.body = JSON.stringify(body);
             }
             console.log('@@@@@@@@@@@ options: ', options);
             request(options, function (error, response) {
