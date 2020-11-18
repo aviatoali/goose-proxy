@@ -19,6 +19,7 @@ app.all('*', function (req, res, next) {
         // CORS Preflight
         res.send();
     } else {
+        console.log('@@@@@@@@@@@@@@@ server.js entering');
         var targetURL = req.header('Target-Endpoint');
         console.log('@@@@@@@@@@@@@@@ server.js targetURL: ', targetURL);
         console.log('@@@@@@@@@@@@@@@ server.js req: ', JSON.stringify(req));
@@ -26,7 +27,12 @@ app.all('*', function (req, res, next) {
             res.send(500, { error: 'There is no Target-Endpoint header in the request' });
             return;
         }
-        request({ url: targetURL + req.url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
+
+        const headers = { 'Content-Type': 'application/json' };
+        if (req.header('Api-Token')) {
+            headers['Api-Token'] = req.header['Api-Token'];
+        }
+        request({ url: targetURL + req.url, method: req.method, json: req.body, headers },
             function (error, response, body) {
                 if (error) {
                     console.error('error: ' + response.statusCode)
