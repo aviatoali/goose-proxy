@@ -3,7 +3,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     app = express();
 
-var myLimit = typeof(process.argv[2]) != 'undefined' ? process.argv[2] : '100kb';
+var myLimit = typeof(process.argv[2]) != 'undefined' ? process.argv[2] : '50MB';
 console.log('Using limit: ', myLimit);
 
 app.use(bodyParser.json({limit: myLimit}));
@@ -51,14 +51,14 @@ app.all('*', function (req, res, next) {
             res.send(500, { error: 'There is no Target-Endpoint header in the request' });
             return;
         }
-        const url = targetUrl + req.url;
+        const url = targetURL + req.url;
         const headers = { 'Content-Type': 'application/json' };
         if (req.header('Api-Token')) {
             headers['Api-Token'] = req.header('Api-Token');
         }
         const method = req.method;
-
-        const options = { method, url, headers };
+        const body = req.body;
+        const options = { method, url, headers, body };
         request(options, function (error, response) {
             console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
             console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
