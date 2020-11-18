@@ -18,33 +18,6 @@ app.all('*', function (req, res, next) {
         // CORS Preflight
         res.send();
     } else {
-        // const targetURL = req.header('Target-Endpoint');
-        // // console.log('@@@@@@@@@@@@@@@ server.js reqUrl: ', targetURL + req.url);
-        // // console.log('@@@@@@@@@@@@@@@ server.js incoming headers: ', req.headers);
-
-        // if (!targetURL) {
-        //     res.send(500, { error: 'There is no Target-Endpoint header in the request' });
-        //     return;
-        // }
-        // const headers = { 'Content-Type': 'application/json' };
-        // if (req.header('Api-Token')) {
-        //     headers['Api-Token'] = req.header('Api-Token');
-        // }
-        // // console.log('@@@@@@@@@@@@@@@ server.js headers: ', headers);
-
-        // try {
-        //     request({ url: targetURL + req.url, method: req.method, json: req.body, headers },
-        //         function (error, response, body) {
-        //             console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
-        //             console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
-        //             console.log('@@@@@@@@@@@@@@@ server.js body: ', body);
-        //             if (error) {
-        //                 console.error('@@@@@@@@@@@@ request error: ' + response.statusCode)
-        //             }
-        //         }).pipe(res);
-        // } catch (error) {
-        //     console.log('@@@@@@@@@@@@@@@ server.js catch error: ', error);
-        // }
         try {
             const targetURL = req.header('Target-Endpoint');
             if (!targetURL) {
@@ -58,12 +31,10 @@ app.all('*', function (req, res, next) {
             }
             const method = req.method;
             const options = { method, url, headers };
-            console.log('@@@@@@@@@@@ req.body: ', req.body);
             const body = req.body;
             if (Object.keys(body).length > 0) {
                 options.body = JSON.stringify(body);
             }
-            console.log('@@@@@@@@@@@ options: ', options);
             request(options, function (error, response) {
                 if (error) throw new Error(error);
             }).pipe(res);
