@@ -58,12 +58,11 @@ app.all('*', function (req, res, next) {
             }
             console.log('@@@@@@@@@@@ HERE 4 with req.body: ', req.body);
             const method = req.method;
-            const body = req.body;
             const options = { method, url, headers };
             if (req.body) {
                 console.log('@@@@@@@@@@@@ CHECK 1 PASSED')
             }
-            let body = req.body;
+            const body = req.body;
             if (Object.keys(body).length > 0) {
                 options.body = body;
             }
