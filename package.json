@@ -1,6 +1,6 @@
 {
-  "name": "CorsProxy",
-  "description": "Simple Cors Proxy",
+  "name": "GooseProxy",
+  "description": "Temporary Cors Proxy",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
