@@ -19,7 +19,7 @@ app.all('*', function (req, res, next) {
         // CORS Preflight
         res.send();
     } else {
-        var targetURL = req.header('Target-URL');
+        var targetURL = req.header('Target-Endpoint');
         console.log('@@@@@@@@@@@@@@@ server.js targetURL: ', targetURL);
         console.log('@@@@@@@@@@@@@@@ server.js req: ', JSON.stringify(req));
         if (!targetURL) {
