@@ -30,16 +30,22 @@ app.all('*', function (req, res, next) {
         if (req.header('Api-Token')) {
             headers['Api-Token'] = req.header['Api-Token'];
         }
-        request({ url: targetURL + req.url, method: req.method, json: req.body, headers },
-            function (error, response, body) {
-                console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
-                console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
-                console.log('@@@@@@@@@@@@@@@ server.js body: ', body);
-                if (error) {
-                    console.error('error: ' + response.statusCode)
-                }
-//                console.log(body);
-            }).pipe(res);
+        console.log('@@@@@@@@@@@@@@@ server.js headers: ', headers);
+
+        try {
+            request({ url: targetURL + req.url, method: req.method, json: req.body, headers },
+                function (error, response, body) {
+                    console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
+                    console.log('@@@@@@@@@@@@@@@ server.js response: ', response);
+                    console.log('@@@@@@@@@@@@@@@ server.js body: ', body);
+                    if (error) {
+                        console.error('@@@@@@@@@@@@ request error: ' + response.statusCode)
+                    }
+                }).pipe(res);
+        } catch (error) {
+            console.log('@@@@@@@@@@@@@@@ server.js catch error: ', error);
+        }
+
     }
 });
 
