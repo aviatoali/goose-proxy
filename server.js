@@ -29,7 +29,7 @@ app.all('*', function (req, res, next) {
         }
         const headers = { 'Content-Type': 'application/json' };
         if (req.header('Api-Token')) {
-            headers['Api-Token'] = req.header['Api-Token'];
+            headers['Api-Token'] = req.header('Api-Token');
         }
         console.log('@@@@@@@@@@@@@@@ server.js headers: ', headers);
 
