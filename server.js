@@ -45,24 +45,28 @@ app.all('*', function (req, res, next) {
         // } catch (error) {
         //     console.log('@@@@@@@@@@@@@@@ server.js catch error: ', error);
         // }
-        console.log('@@@@@@@@@@@ HERE 1');
         try {
             const targetURL = req.header('Target-Endpoint');
             if (!targetURL) {
                 res.send(500, { error: 'There is no Target-Endpoint header in the request' });
                 return;
             }
-            console.log('@@@@@@@@@@@ HERE 2');
             const url = targetURL + req.url;
             const headers = { 'Content-Type': 'application/json' };
-            console.log('@@@@@@@@@@@ HERE 3');
             if (req.header('Api-Token')) {
                 headers['Api-Token'] = req.header('Api-Token');
             }
-            console.log('@@@@@@@@@@@ HERE 4');
+            console.log('@@@@@@@@@@@ HERE 4 with req.body: ', req.body);
             const method = req.method;
             const body = req.body;
-            const options = { method, url, headers, body };
+            const options = { method, url, headers };
+            if (req.body) {
+                console.log('@@@@@@@@@@@@ CHECK 1 PASSED')
+            }
+            let body = req.body;
+            if (Object.keys(body).length > 0) {
+                options.body = body;
+            }
             console.log('@@@@@@@@@@@ HERE 5 with options: ', options);
             request(options, function (error, response) {
                 console.log('@@@@@@@@@@@@@@@ server.js error: ', error);
