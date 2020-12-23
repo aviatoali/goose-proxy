@@ -35,7 +35,11 @@ app.all('*', function (req, res, next) {
             if (Object.keys(body).length > 0) {
                 options.body = JSON.stringify(body);
             }
+            console.log('@@@@@@@@@@@@ req options: ', options);
             request(options, function (error, response) {
+                console.log('@@@@@@@@@@@@ ERROR: ', error);
+
+                console.log('@@@@@@@@@@@@ response: ', response.statusCode);
                 if (error) throw new Error(error);
             }).pipe(res);
         } catch (error) {
